@@ -1,10 +1,10 @@
 # Introduction
 
 With the introduction of Classes in TypeScript and ES6, there now exist certain scenarios that require additional features to support annotating or modifying classes and class members.
-Decorators provide a way to add both annotations and a meta-programming syntax for class declarations and members.
-Decorators are a [stage 2 proposal](https://github.com/tc39/proposal-decorators) for JavaScript and are available as an experimental feature of TypeScript.
+<span class='definition'>Decorators</span> provide a way to add both <span class='definition'>annotations</span> and a <span class='definition'>meta-programming syntax</span> for class declarations and members.
+Decorators are <span class='important'>a [stage 2 proposal](https://github.com/tc39/proposal-decorators) for JavaScript and are available as an experimental feature of TypeScript</span>.
 
-> NOTE&emsp; Decorators are an experimental feature that may change in future releases.
+> NOTE&emsp; Decorators are an experimental feature that <span class='bold'>may change in future releases</span>.
 
 To enable experimental support for decorators, you must enable the `experimentalDecorators` compiler option either on the command line or in your `tsconfig.json`:
 
@@ -27,8 +27,8 @@ tsc --target ES5 --experimentalDecorators
 
 # Decorators
 
-A *Decorator* is a special kind of declaration that can be attached to a [class declaration](#class-decorators), [method](#method-decorators), [accessor](#accessor-decorators), [property](#property-decorators), or [parameter](#parameter-decorators).
-Decorators use the form `@expression`, where `expression` must evaluate to a function that will be called at runtime with information about the decorated declaration.
+A <span class='definition'>*Decorator*</span> is a special kind of declaration that can be attached to a [class declaration](#class-decorators), [method](#method-decorators), [accessor](#accessor-decorators), [property](#property-decorators), or [parameter](#parameter-decorators).
+Decorators use the form `@expression`, where `expression` must evaluate to a <span class='bold'>function</span> that will be <span class='bold'>called</span> at runtime with information about the decorated declaration.
 
 For example, given the decorator `@sealed` we might write the `sealed` function as follows:
 
@@ -42,8 +42,8 @@ function sealed(target) {
 
 ## Decorator Factories
 
-If we want to customize how a decorator is applied to a declaration, we can write a decorator factory.
-A *Decorator Factory* is simply a function that returns the expression that will be called by the decorator at runtime.
+If we want to <span class='bold'>customize how</span> a decorator is applied to a declaration, we can write a decorator factory.
+A <span class='definition'>*Decorator Factory*</span> is simply a function that returns the <span class='important'>expression that will be called by the decorator at runtime</span>.
 
 We can write a decorator factory in the following fashion:
 
@@ -59,7 +59,7 @@ function color(value: string) { // this is the decorator factory
 
 ## Decorator Composition
 
-Multiple decorators can be applied to a declaration, as in the following examples:
+<span class='important'>Multiple decorators</span> can be applied to a declaration, as in the following examples:
 
 * On a single line:
 
@@ -79,8 +79,8 @@ When multiple decorators apply to a single declaration, their evaluation is simi
 
 As such, the following steps are performed when evaluating multiple decorators on a single declaration in TypeScript:
 
-1. The expressions for each decorator are evaluated top-to-bottom.
-2. The results are then called as functions from bottom-to-top.
+1. The expressions for each decorator are <span class='important'>evaluated</span> <span class='bold'>top-to-bottom</span>.
+2. The results are then <span class='important'>called</span> as functions from <span class='bold'>bottom-to-top</span>.
 
 If we were to use [decorator factories](#decorator-factories), we can observe this evaluation order with the following example:
 
@@ -119,22 +119,22 @@ f(): called
 
 There is a well defined order to how decorators applied to various declarations inside of a class are applied:
 
-1. *Parameter Decorators*, followed by *Method*, *Accessor*, or *Property Decorators* are applied for each instance member.
-2. *Parameter Decorators*, followed by *Method*, *Accessor*, or *Property Decorators* are applied for each static member.
-3. *Parameter Decorators* are applied for the constructor.
-4. *Class Decorators* are applied for the class.
+1. *Parameter Decorators*, followed by *Method*, *Accessor*, or *Property Decorators* are applied for each <span class='bold'>instance member</span>.
+2. *Parameter Decorators*, followed by *Method*, *Accessor*, or *Property Decorators* are applied for each <span class='bold'>static member</span>.
+3. *Parameter Decorators* are applied for the <span class='bold'>constructor</span>.
+4. *Class Decorators* are applied for the <span class='bold'>class</span>.
 
 ## Class Decorators
 
-A *Class Decorator* is declared just before a class declaration.
-The class decorator is applied to the constructor of the class and can be used to observe, modify, or replace a class definition.
+A <span class='definition'>*Class Decorator*</span> is declared just before a class declaration.
+The class decorator is applied to the constructor of the class and can be used to <span class='important'>observe, modify, or replace a class definition</span>.
 A class decorator cannot be used in a declaration file, or in any other ambient context (such as on a `declare` class).
 
-The expression for the class decorator will be called as a function at runtime, with the constructor of the decorated class as its only argument.
+The expression for the class decorator will be <span class='bold'>called</span> as a function at runtime, with the constructor of the decorated class as its only argument.
 
-If the class decorator returns a value, it will replace the class declaration with the provided constructor function.
+If the class decorator <span class='important'>returns a value</span>, it will <span class='bold'>replace the class declaration</span> with the provided constructor function.
 
-> NOTE&nbsp; Should you choose to return a new constructor function, you must take care to maintain the original prototype.
+> NOTE&nbsp; Should you choose to return a new constructor function, you must take care to <span class='important'>maintain the original prototype</span>.
 The logic that applies decorators at runtime will **not** do this for you.
 
 The following is an example of a class decorator (`@sealed`) applied to the `Greeter` class:
@@ -163,7 +163,7 @@ function sealed(constructor: Function) {
 
 When `@sealed` is executed, it will seal both the constructor and its prototype.
 
-Next we have an example of how to override the constructor.
+Next we have an example of how to <span class='definition'>override the constructor</span>.
 
 ```ts
 function classDecorator<T extends {new(...args:any[]):{}}>(constructor:T) {
@@ -187,11 +187,11 @@ console.log(new Greeter("world"));
 
 ## Method Decorators
 
-A *Method Decorator* is declared just before a method declaration.
-The decorator is applied to the *Property Descriptor* for the method, and can be used to observe, modify, or replace a method definition.
+A <span class='definition'>*Method Decorator*</span> is declared just before a method declaration.
+The decorator is applied to the *Property Descriptor* for the method, and can be used to <span class='important'>observe, modify, or replace a method definition</span>.
 A method decorator cannot be used in a declaration file, on an overload, or in any other ambient context (such as in a `declare` class).
 
-The expression for the method decorator will be called as a function at runtime, with the following three arguments:
+The expression for the method decorator will be <span class='important'>called</span> as a function at runtime, with the following <span class='bold'>three arguments</span>:
 
 1. Either the constructor function of the class for a static member, or the prototype of the class for an instance member.
 2. The name of the member.

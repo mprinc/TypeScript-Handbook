@@ -1,9 +1,9 @@
 # Introduction
 
-A major part of software engineering is building components that not only have well-defined and consistent APIs, but are also reusable.
+A major part of software engineering is building components that not only have well-defined and consistent APIs, but are also <span class='definition'>reusable</span>.
 Components that are capable of working on the data of today as well as the data of tomorrow will give you the most flexible capabilities for building up large software systems.
 
-In languages like C# and Java, one of the main tools in the toolbox for creating reusable components is *generics*, that is, being able to create a component that can work over a variety of types rather than a single one.
+In languages like C# and Java, one of the main tools in the toolbox for creating reusable components is <span class='definition'>*generics*</span>, that is, being able to create a component that <span class='important'>can work over a variety of types rather than a single one</span>.
 This allows users to consume these components and use their own types.
 
 # Hello World of Generics
@@ -28,11 +28,11 @@ function identity(arg: any): any {
 }
 ```
 
-While using `any` is certainly generic in that it will cause the function to accept any and all types for the type of `arg`, we actually are losing the information about what that type was when the function returns.
+While <span class='important'>using `any` is certainly generic in that it will cause the function to accept any and all types for the type of `arg`, we actually are losing the information about what that type was when the function returns</span>.
 If we passed in a number, the only information we have is that any type could be returned.
 
 Instead, we need a way of capturing the type of the argument in such a way that we can also use it to denote what is being returned.
-Here, we will use a *type variable*, a special kind of variable that works on types rather than values.
+Here, we will use a <span class='definition'>*type variable*</span>, a special kind of variable that <span class='important'>works on types rather than values</span>.
 
 ```ts
 function identity<T>(arg: T): T {
@@ -49,15 +49,16 @@ We say that this version of the `identity` function is generic, as it works over
 Unlike using `any`, it's also just as precise (ie, it doesn't lose any information) as the first `identity` function that used numbers for the argument and return type.
 
 Once we've written the generic identity function, we can call it in one of two ways.
-The first way is to pass all of the arguments, including the type argument, to the function:
+The first way is to <span class='definition'>pass all of the arguments, including the type argument</span>, to the function:
 
 ```ts
 let output = identity<string>("myString");  // type of output will be 'string'
 ```
 
 Here we explicitly set `T` to be `string` as one of the arguments to the function call, denoted using the `<>` around the arguments rather than `()`.
+<span class='comment' data-comment='This helps compiler to know that the `output` variable is of the type `string` and not of the type `any`'></span>
 
-The second way is also perhaps the most common. Here we use *type argument inference* -- that is, we want the compiler to set the value of `T` for us automatically based on the type of the argument we pass in:
+The second way is also perhaps the most common. Here we use <span class='definition'>*type argument inference*</span> -- that is, we want <span class='important'>the compiler to set the value of `T` for us automatically</span> based on the type of the argument we pass in:
 
 ```ts
 let output = identity("myString");  // type of output will be 'string'
@@ -68,7 +69,7 @@ While type argument inference can be a helpful tool to keep code shorter and mor
 
 # Working with Generic Type Variables
 
-When you begin to use generics, you'll notice that when you create generic functions like `identity`, the compiler will enforce that you use any generically typed parameters in the body of the function correctly.
+When you begin to use generics, you'll notice that when you create generic functions like `identity`, the compiler will enforce that you use any generically typed parameters in the body of the function <span class='important'>correctly</span>.
 That is, that you actually treat these parameters as if they could be any and all types.
 
 Let's take our `identity` function from earlier:
@@ -89,10 +90,10 @@ function loggingIdentity<T>(arg: T): T {
 }
 ```
 
-When we do, the compiler will give us an error that we're using the `.length` member of `arg`, but nowhere have we said that `arg` has this member.
-Remember, we said earlier that these type variables stand in for any and all types, so someone using this function could have passed in a `number` instead, which does not have a `.length` member.
+When we do, the compiler will give us an error that we're using the `.length` member of `arg`, but <span class='important'>nowhere have we said that `arg` has this member</span>.
+Remember, we said earlier that <span class='definition'>these type variables stand in for any and all types</span>, so someone using this function <span class='important'>could have passed in a `number` instead, which does not have a `.length` member</span>.
 
-Let's say that we've actually intended this function to work on arrays of `T` rather than `T` directly. Since we're working with arrays, the `.length` member should be available.
+Let's say that we've actually intended this function to work on <span class='important'>arrays of `T` rather than `T` directly</span>. Since we're working with arrays, the `.length` member should be available.
 We can describe this just like we would create arrays of other types:
 
 ```ts
@@ -121,9 +122,9 @@ In the next section, we'll cover how you can create your own generic types like 
 # Generic Types
 
 In previous sections, we created generic identity functions that worked over a range of types.
-In this section, we'll explore the type of the functions themselves and how to create generic interfaces.
+In this section, we'll explore the type of the functions themselves and how to create <span class='definition'>generic interfaces</span>.
 
-The type of generic functions is just like those of non-generic functions, with the type parameters listed first, similarly to function declarations:
+The <span class='definition'>type of generic functions</span> is just like those of non-generic functions, with the type parameters listed first, similarly to function declarations:
 
 ```ts
 function identity<T>(arg: T): T {
@@ -143,7 +144,7 @@ function identity<T>(arg: T): T {
 let myIdentity: <U>(arg: U) => U = identity;
 ```
 
-We can also write the generic type as a call signature of an object literal type:
+We can also write the generic type as a <span class='definition'>call signature of an object literal type</span>:
 
 ```ts
 function identity<T>(arg: T): T {
@@ -153,7 +154,7 @@ function identity<T>(arg: T): T {
 let myIdentity: {<T>(arg: T): T} = identity;
 ```
 
-Which leads us to writing our first generic interface.
+Which leads us to writing our first <span class='definition'>generic interface</span>.
 Let's take the object literal from the previous example and move it to an interface:
 
 ```ts
@@ -168,9 +169,9 @@ function identity<T>(arg: T): T {
 let myIdentity: GenericIdentityFn = identity;
 ```
 
-In a similar example, we may want to move the generic parameter to be a parameter of the whole interface.
+In a similar example, we may want to <span class='definition'>move the generic parameter to be a parameter of the whole interface</span>.
 This lets us see what type(s) we're generic over (e.g. `Dictionary<string>` rather than just `Dictionary`).
-This makes the type parameter visible to all the other members of the interface.
+This makes <span class='important'>the type parameter visible to all the other members of the interface</span>.
 
 ```ts
 interface GenericIdentityFn<T> {
@@ -185,17 +186,17 @@ let myIdentity: GenericIdentityFn<number> = identity;
 ```
 
 Notice that our example has changed to be something slightly different.
-Instead of describing a generic function, we now have a non-generic function signature that is a part of a generic type.
-When we use `GenericIdentityFn`, we now will also need to specify the corresponding type argument (here: `number`), effectively locking in what the underlying call signature will use.
+<span class='important'>Instead of describing a generic function, we now have a non-generic function signature that is a part of a generic type</span>.
+When we use `GenericIdentityFn`, we now will also <span class='important'>need to specify the corresponding type argument</span> (here: `number`), effectively locking in what the underlying call signature will use.
 Understanding when to put the type parameter directly on the call signature and when to put it on the interface itself will be helpful in describing what aspects of a type are generic.
 
 In addition to generic interfaces, we can also create generic classes.
-Note that it is not possible to create generic enums and namespaces.
+Note that it is <span class='definition'>not possible to create generic enums and namespaces</span>.
 
 # Generic Classes
 
 A generic class has a similar shape to a generic interface.
-Generic classes have a generic type parameter list in angle brackets (`<>`) following the name of the class.
+Generic classes have a <span class='definition'>generic type parameter list</span> in angle brackets (`<>`) following the name of the class.
 
 ```ts
 class GenericNumber<T> {
@@ -221,8 +222,8 @@ console.log(stringNumeric.add(stringNumeric.zeroValue, "test"));
 
 Just as with interface, putting the type parameter on the class itself lets us make sure all of the properties of the class are working with the same type.
 
-As we covered in [our section on classes](./Classes.md), a class has two sides to its type: the static side and the instance side.
-Generic classes are only generic over their instance side rather than their static side, so when working with classes, static members can not use the class's type parameter.
+As we covered in [our section on classes](./Classes.md), a class has two sides to its type: the <span class='definition'>static side</span> and the <span class='definition'>instance side</span>.
+Generic classes are only generic over their instance side rather than their static side, so when working with classes, <span class='definition'>static members can not use the class's type parameter</span>.
 
 # Generic Constraints
 
@@ -238,9 +239,9 @@ function loggingIdentity<T>(arg: T): T {
 
 Instead of working with any and all types, we'd like to constrain this function to work with any and all types that also have the `.length` property.
 As long as the type has this member, we'll allow it, but it's required to have at least this member.
-To do so, we must list our requirement as a constraint on what T can be.
+To do so, we must <span class='definition'>list our requirement as a constraint on what T can be</span>.
 
-To do so, we'll create an interface that describes our constraint.
+To do so, we'll <span class='important'>create an interface that describes our constraint</span>.
 Here, we'll create an interface that has a single `.length` property and then we'll use this interface and the `extends` keyword to denote our constraint:
 
 ```ts
@@ -254,7 +255,7 @@ function loggingIdentity<T extends Lengthwise>(arg: T): T {
 }
 ```
 
-Because the generic function is now constrained, it will no longer work over any and all types:
+Because the <span class='important'>generic function is now constrained</span>, it will no longer work over any and all types:
 
 ```ts
 loggingIdentity(3);  // Error, number doesn't have a .length property
@@ -270,8 +271,7 @@ loggingIdentity({length: 10, value: 3});
 
 You can declare a type parameter that is constrained by another type parameter.
 For example, here we'd like to get a property from an object given its name.
-We'd like to ensure that we're not accidentally grabbing a property that does not exist on the `obj`, so we'll place a constraint between the two types:
-
+We'd like to ensure that we're not accidentally grabbing a <span class='definition'>property that does not exist on the `obj`</span>, so we'll place a constraint between the two types:
 ```ts
 function getProperty<T, K extends keyof T>(obj: T, key: K) {
     return obj[key];
@@ -283,17 +283,19 @@ getProperty(x, "a"); // okay
 getProperty(x, "m"); // error: Argument of type 'm' isn't assignable to 'a' | 'b' | 'c' | 'd'.
 ```
 
+<span class='comment' data-comment='`K extends keyof T` tells that the value of type K has to be an existing key in the object of the type T'></span>
+
 ## Using Class Types in Generics
 
-When creating factories in TypeScript using generics, it is necessary to refer to class types by their constructor functions. For example,
+When <span class='definition'>creating factories in TypeScript using generics</span>, it is necessary to <span class='important'>refer to <span class='definition'>class types</span> by their constructor functions</span>. For example,
 
 ```ts
 function create<T>(c: {new(): T; }): T {
     return new c();
 }
 ```
-
-A more advanced example uses the prototype property to infer and constrain relationships between the constructor function and the instance side of class types.
+<span class='comment' data-comment='`c: {new(): T; }` says that c is a parametar of a constructor type that constructs an object of the type T'></span>
+A more advanced example uses the <span class='definition'>prototype property</span> to <span class='comment' data-comment='meaning that the instance A that the createInstance function returns is of the type Animal but not just that, but THE SAME type as the type passed as an parameter to the method, and therefore the compiler can guess what type of keeper we are referring to'>infer and constrain relationships between the constructor function and the instance side of class types</span>.
 
 ```ts
 class BeeKeeper {
